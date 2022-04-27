@@ -1,19 +1,18 @@
 import Link from "next/link";
 import { ReactChild } from "react";
 import styled from '@emotion/styled';
-import styles from '../styles/MainContainer.module.css'
 
 interface props{
     children?: ReactChild;
 }
 
-const StyledContainer = styled.form`
+const StyledContainer = styled.div`
     display: flex;
     background: rgb(46, 143, 173);
     width: 100%;
 `;
 
-const StyledCardForm = styled.form`
+const StyledCardForm = styled.div`
     min-height: 30px;
     width: 130px;
 `;
@@ -26,7 +25,7 @@ const StyledFooter = styled.footer`
     align-items: center;
 `;
 
-const StyledText = styled.button`
+const StyledText = styled.link`
     color: rgb(176, 203, 244);
     font-size: 25px;
     margin: 25px;

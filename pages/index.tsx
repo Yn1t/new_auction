@@ -12,7 +12,7 @@ const StyledFooter = styled.footer`
   align-items: center;
 `;
 
-const StyledContainer = styled.form`
+const StyledContainer = styled.div`
   background: linear-gradient(to bottom, rgb(84, 209, 248), rgb(22, 22, 22));
   padding: 0 2rem;
 `;
@@ -27,13 +27,13 @@ const StyledMain = styled.main`
   align-items: center;
 `;
 
-const StyledTitle = styled.text`
+const StyledTitle = styled.span`
   color: rgb(185, 206, 241);
   line-height: 1.15;
   font-size: 4rem;
 `;
 
-const StyledGrid = styled.form`
+const StyledGrid = styled.div`
   color: rgb(122, 233, 31);
   display: flex;
   align-items: center;
