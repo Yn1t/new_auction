@@ -27,9 +27,8 @@ const StyledMain = styled.main`
   align-items: center;
 `;
 
-const StyledTitle = styled.title`
+const StyledTitle = styled.text`
   color: rgb(185, 206, 241);
-  margin: 0;
   line-height: 1.15;
   font-size: 4rem;
 `;
