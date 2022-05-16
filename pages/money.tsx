@@ -1,9 +1,5 @@
-import type { NextPage } from 'next'
-import styled from '@emotion/styled';
-import MainContainer from '../src/components/MainContainer'
-import { useStore } from '../src/stores/storeContext';
-import { useRouter } from 'next/router'
-import { observer } from 'mobx-react-lite';
+import MainContainer from "../src/components/MainContainer"
+import styled from "@emotion/styled";
 
 const StyledFooter = styled.footer`
   display: flex;
@@ -44,30 +40,26 @@ const StyledGrid = styled.div`
   max-width: 800px;
 `;
 
-const Home: NextPage = () => {
-  const { userStore } = useStore();
-  const router = useRouter();
+const Money = () => {
 
-  return (
-    <MainContainer>
-      <StyledContainer>
+    return (<MainContainer>
+        <StyledContainer>
 
-        <StyledMain>
+            <StyledMain>
 
-          <StyledTitle>
-            Main
-          </StyledTitle>
+                <StyledTitle>
+                    Money
+                </StyledTitle>
 
-          <StyledGrid>
-          </StyledGrid>
+                <StyledGrid>
+                </StyledGrid>
 
-        </StyledMain>
+            </StyledMain>
 
-        <StyledFooter />
+            <StyledFooter />
 
-      </StyledContainer>
-    </MainContainer>
-  )
+        </StyledContainer>
+    </MainContainer>)
 }
 
-export default observer(Home);
+export default Money;

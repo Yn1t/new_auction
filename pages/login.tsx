@@ -1,9 +1,10 @@
-import type { NextPage } from 'next'
+import MainContainer from "../src/components/MainContainer"
+import LoginContainer from "../src/components/LoginContainer";
 import styled from '@emotion/styled';
-import MainContainer from '../src/components/MainContainer'
-import { useStore } from '../src/stores/storeContext';
-import { useRouter } from 'next/router'
-import { observer } from 'mobx-react-lite';
+import { useStore } from "../src/stores/storeContext";
+import { useRouter } from "next/router";
+import { useLayoutEffect } from "react";
+import { observer } from "mobx-react-lite";
 
 const StyledFooter = styled.footer`
   display: flex;
@@ -44,21 +45,29 @@ const StyledGrid = styled.div`
   max-width: 800px;
 `;
 
-const Home: NextPage = () => {
+const Login = () => {
   const { userStore } = useStore();
   const router = useRouter();
 
+  useLayoutEffect(() => {
+    if (userStore.user) {
+      router.push("/");
+    }
+  }, [userStore.user, router]);
+
   return (
     <MainContainer>
+
       <StyledContainer>
 
         <StyledMain>
 
           <StyledTitle>
-            Main
+            Sign in
           </StyledTitle>
 
           <StyledGrid>
+            <LoginContainer />
           </StyledGrid>
 
         </StyledMain>
@@ -66,8 +75,9 @@ const Home: NextPage = () => {
         <StyledFooter />
 
       </StyledContainer>
+
     </MainContainer>
   )
 }
 
-export default observer(Home);
+export default observer(Login);
