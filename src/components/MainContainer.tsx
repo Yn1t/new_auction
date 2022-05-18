@@ -87,15 +87,15 @@ const MainContainer = ({ children, authRequired }: props) => {
                 </StyledCardForm>
             </StyledContainer>
             <StyledFooter />
-            <Player
+
+            {!userStore.isLoading ? children : <Player
             background="blue"
+            autoplay={true}
             loop={true}
             controls={true}
             src="https://assets3.lottiefiles.com/private_files/lf30_rlssnwpv.json"
             style={{ height: '300px', width: '300px' }}
-          ></Player>
-
-            {children}
+          ></Player>}
         </>
     )
 

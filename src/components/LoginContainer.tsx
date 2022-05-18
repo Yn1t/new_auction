@@ -1,10 +1,8 @@
 import styled from '@emotion/styled';
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from "react-hook-form";
 import { Button, TextField } from "@mui/material";
 import { useStore } from '../stores/storeContext';
-import Home from '../../pages';
-import { BrowserRouter as Router, Route } from "react-router-dom";
 import { useRouter } from 'next/router';
 
 
@@ -66,7 +64,7 @@ const LoginContainer = () => {
     } = useForm();
 
     const signupEvent = (event: React.MouseEvent<HTMLButtonElement>) => {
-        location.pathname = "/signup";
+        router.push("/signup");
     }
 
     const onSubmit = (data: LoginInfo) => {

@@ -1,6 +1,7 @@
 import { clearSession, saveSession } from "../utils/authService";
 import { types } from "mobx-state-tree";
 import { getAccountInfo, signup, signin } from "../api/authApi";
+import { makeBet } from "../api/betsApi";
 
 const User = types.model("User", {
   id: types.string,
@@ -55,6 +56,11 @@ export const UserStore = types
       self.isLoading = true;
       self.user = null;
       clearSession();
+      self.isLoading = false;
+    },
+    makeBet: (lotId: string, amount: number) => {
+      self.isLoading = true;
+      makeBet(lotId, amount);
       self.isLoading = false;
     }
   }));

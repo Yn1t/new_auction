@@ -1,7 +1,7 @@
 import { HOST } from "../../config";
 import axios, { AxiosResponse } from "axios";
 import { User } from "../types/types";
-import { clearSession, getSession, saveSession } from "../utils/authService";
+import {  getSession } from "../utils/authService";
 
 export const signup = (
   email: string,

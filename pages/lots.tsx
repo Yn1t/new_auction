@@ -29,18 +29,13 @@ const StyledMain = styled.main`
   align-items: center;
 `;
 
-const StyledTitle = styled.span`
-  color: rgb(185, 206, 241);
-  line-height: 1.15;
-  font-size: 4rem;
-`;
-
 const StyledGrid = styled.div`
   color: rgb(122, 233, 31);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
+  margin: 40px;
   max-width: 800px;
 `;
 
@@ -59,14 +54,10 @@ const Lots = () => {
     <StyledContainer>
 
       <StyledMain>
-
-        <StyledTitle>
+        <StyledGrid>
           {lots.map((lot) => (
             <CardLot key={lot.name} data={lot} />
-          ))}
-        </StyledTitle>
-
-        <StyledGrid>
+          ))}   
         </StyledGrid>
 
       </StyledMain>

@@ -10,6 +10,7 @@ import Tooltip from '@mui/material/Tooltip';
 import Logout from '@mui/icons-material/Logout';
 import { useStore } from '../stores/storeContext';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 const AccountMenu = () => {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -75,24 +76,35 @@ const AccountMenu = () => {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        
-        <MenuItem>
-          <Avatar sx={{ width: 32, height: 32 }}>P</Avatar> Profile
-        </MenuItem>
-        <MenuItem>
-          <Avatar sx={{ width: 32, height: 32 }}>L</Avatar> My lots
-        </MenuItem>
-        <MenuItem>
-          <Avatar sx={{ width: 32, height: 32 }}>M</Avatar> Balance
-        </MenuItem>
-        <MenuItem>
-          <Avatar sx={{ width: 32, height: 32 }}>B</Avatar> Bets
-        </MenuItem>
+
+        <Link href="/profile" passHref>
+          <MenuItem>
+            <Avatar sx={{ width: 32, height: 32 }}>P</Avatar> Profile
+          </MenuItem>
+        </Link>
+
+        <Link href="/lots" passHref>
+          <MenuItem>
+            <Avatar sx={{ width: 32, height: 32 }}>L</Avatar> My lots
+          </MenuItem>
+        </Link>
+
+        <Link href="/money" passHref>
+          <MenuItem>
+            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar> Balance
+          </MenuItem>
+        </Link>
+
+        <Link href="/bets" passHref>
+          <MenuItem>
+            <Avatar sx={{ width: 32, height: 32 }}>B</Avatar> Bets
+          </MenuItem>
+        </Link>
         <Divider />
 
-        <MenuItem onClick = {() => {
-            userStore.logout();
-            router.reload();
+        <MenuItem onClick={() => {
+          userStore.logout();
+          router.reload();
         }}>
           <ListItemIcon>
             <Logout fontSize="small" />
