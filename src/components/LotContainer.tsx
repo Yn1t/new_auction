@@ -1,9 +1,11 @@
 import styled from "@emotion/styled";
 import { Button, Card, CardMedia, TextField } from "@mui/material";
-import React from "react";
+import React, { useLayoutEffect } from "react";
 import { useStore } from "../stores/storeContext";
 import { Lot } from "../types/types";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/router";
+import { getImage } from "../api/lotsApi";
 
 type Props = {
   data: Lot;
@@ -35,13 +37,13 @@ const LoginForm = styled.form`
     }
 `;
 
-const LotPhoto = styled.img`
-  height: 100px;
-`;
-
 const Input = styled(TextField)`
   
 `;
+
+type authProps = {
+  auth?: boolean;
+}
 
 type BetsData = {
   amount?: number;
@@ -49,7 +51,7 @@ type BetsData = {
 
 const CardLot = ({ data }: Props) => {
   const { userStore } = useStore();
-  console.log(data);
+  const router = useRouter();
 
   const {
     register,
@@ -58,44 +60,22 @@ const CardLot = ({ data }: Props) => {
   } = useForm();
 
   const onSubmit = (amount: BetsData) => {
-    console.log(amount.amount, data.id);
     if (amount.amount) {
       userStore.makeBet(data.id, amount.amount);
     }
+    router.reload();
   };
 
-  return (
-    <Card sx={{
-      margin: 2.5, borderRadius: 5, border: 5, borderColor: '#a1a1fa',
-      background: '#b5b5e3'
-    }}>
-      <CardMedia
-        component="img"
-        alt="green iguana"
-        image={`data:image/png;base64,${data.image}`}
-      >
-      </CardMedia>
+  var Bet;
 
-      <StyledPaper>
-        {data.name}
-      </StyledPaper>
-      <StyledPaper>
-        Lot id : {data.id}
-      </StyledPaper>
-      <StyledPaper>
-        Current Price : {data.startPrice}
-      </StyledPaper>
-      <StyledPaper>
-        Description : {data.description}
-      </StyledPaper>
-      <StyledPaper>
-        Tags : {data.tags}
-      </StyledPaper>
-      <StyledPaper>
-        Best bet : {}
-      </StyledPaper>
+  if (data.bestBet == null)
+    Bet = data.startPrice;
+  else
+    Bet = data.bestBet.amount
 
-      <LoginForm onSubmit={handleSubmit(onSubmit)}>
+  const MakeBetSet = ({auth} : authProps) => {
+    if (auth) {
+      return <LoginForm onSubmit={handleSubmit(onSubmit)}>
         <Input
           label="Input your bet"
           variant="filled"
@@ -118,9 +98,51 @@ const CardLot = ({ data }: Props) => {
               : errors.amount.message)
           }
         />
-
         <Button type="submit"> Make bet </Button>
       </LoginForm>
+    }
+    else {
+      return null;
+    }
+  }
+
+  return (
+    <Card sx={{
+      margin: 2.5, borderRadius: 5, border: 5, borderColor: '#a1a1fa',
+      background: '#b5b5e3'
+    }}>
+      <CardMedia
+        component="img"
+        alt="Lot"
+        image={`data:image/png;base64,${getImage(data.image)}`}
+      >
+      </CardMedia>
+
+      <StyledPaper>
+        {data.name}
+      </StyledPaper>
+      <StyledPaper>
+        Lot id : {data.id}
+      </StyledPaper>
+      <StyledPaper>
+        Current Price : {data.startPrice}
+      </StyledPaper>
+      <StyledPaper>
+        Description : {data.description}
+      </StyledPaper>
+      <StyledPaper>
+        Tags : {data.tags}
+      </StyledPaper>
+      <StyledPaper>
+        Best bet : {Bet}
+      </StyledPaper>
+
+      <StyledPaper>
+        Sold? : {data.sold.toString()}
+      </StyledPaper>
+
+      <MakeBetSet auth={userStore.user?.login != undefined}/>
+      <></>
     </Card>
   );
 };

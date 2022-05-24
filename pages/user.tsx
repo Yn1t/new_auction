@@ -1,11 +1,9 @@
-import type { NextPage } from 'next'
-import styled from '@emotion/styled';
-import MainContainer from '../src/components/MainContainer'
-import { observer } from 'mobx-react-lite';
-import { useLayoutEffect, useState } from 'react';
-import { getPopular } from '../src/api/lotsApi';
-import { Lot } from '../src/types/types';
-import CardLot from '../src/components/LotContainer';
+import MainContainer from "../src/components/MainContainer"
+import styled from "@emotion/styled";
+import { useRouter } from "next/router";
+import { useLayoutEffect, useState } from "react";
+import { User } from "../src/types/types";
+import { getOtherUser } from "../src/api/userApi";
 
 const StyledFooter = styled.footer`
   display: flex;
@@ -31,6 +29,12 @@ const StyledMain = styled.main`
   align-items: center;
 `;
 
+const StyledTitle = styled.span`
+  color: rgb(185, 206, 241);
+  line-height: 1.15;
+  font-size: 4rem;
+`;
+
 const StyledGrid = styled.div`
   color: rgb(122, 233, 31);
   display: flex;
@@ -40,26 +44,32 @@ const StyledGrid = styled.div`
   max-width: 800px;
 `;
 
-const Home: NextPage = () => {
-  const [lots, setLots] = useState<ReadonlyArray<Lot>>([]);
+const User = () => {
+  const router = useRouter();
+  const { id } = router.query;
+  const [user, setUser] = useState<User>();
 
   useLayoutEffect(() => {
-    getPopular().then((data) => {
-      setLots(data.data);
-      console.log(data.data);
-    });
-  }, []);
+    console.log(id);
+    console.log("Hi");
+    if (id != undefined)
+      getOtherUser(id?.toString()).then((data) => {
+        setUser(data.data);
+        console.log(data.data);
+      });
+  }, [id]);
 
   return (
-    <MainContainer>
+    <MainContainer authRequired={false}>
       <StyledContainer>
 
         <StyledMain>
 
+          <StyledTitle>
+            Nickname : {user?.login}
+          </StyledTitle>
+
           <StyledGrid>
-            {lots.map((lot) => (
-              <CardLot key={lot.name} data={lot} />
-            ))}
           </StyledGrid>
 
         </StyledMain>
@@ -71,4 +81,4 @@ const Home: NextPage = () => {
   )
 }
 
-export default observer(Home);
+export default User;

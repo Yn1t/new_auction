@@ -16,4 +16,12 @@ export type Lot = {
     amount: number;
   }
   image: string;
+  sold: boolean;
 };
+
+export type Bet = {
+  id: string;
+  amount: number;
+  createDate: string;
+  ownLotId: string;
+}

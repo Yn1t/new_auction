@@ -1,7 +1,8 @@
 import styled from '@emotion/styled';
 import MainContainer from '../src/components/MainContainer'
 import { useStore } from '../src/stores/storeContext';
-import { useRouter } from 'next/router'
+import { getSession } from '../src/utils/authService';
+import { observer } from 'mobx-react-lite';
 
 const StyledFooter = styled.footer`
   display: flex;
@@ -30,35 +31,45 @@ const StyledMain = styled.main`
 const StyledTitle = styled.span`
   color: rgb(185, 206, 241);
   line-height: 1.15;
-  font-size: 4rem;
+  font-size: 2rem;
 `;
 
 const StyledGrid = styled.div`
-  color: rgb(122, 233, 31);
+  text-align: left;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: left;
   justify-content: center;
   flex-wrap: wrap;
-  max-width: 800px;
+  max-width: 1200px;
+  > * {
+    margin-bottom: 50px;
+  }
 `;
-
-// export const getServerSideProps = getServerSideAuthProps;
 
 const Profile = () => {
   const { userStore } = useStore();
-  const router = useRouter();
+  const session = getSession();
 
   return (
-    <MainContainer authRequired>
+    <MainContainer authRequired={true}>
       <StyledContainer>
 
         <StyledMain>
 
-          <StyledTitle>
-            Profile
-          </StyledTitle>
-
           <StyledGrid>
+            <StyledTitle>
+              Name : {userStore.user?.login}
+            </StyledTitle>
+            <StyledTitle>
+              Email : {session?.login}
+            </StyledTitle>
+            <StyledTitle>
+              Balance : {userStore.user?.balance}
+            </StyledTitle>
+            <StyledTitle>
+              Id : {userStore.user?.id}
+            </StyledTitle>
           </StyledGrid>
 
         </StyledMain>
@@ -70,4 +81,4 @@ const Profile = () => {
   )
 }
 
-export default Profile;
+export default observer(Profile);

@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import { getAccountInfo } from "../api/authApi";
 import { User } from "../types/types";
 import { Player } from '@lottiefiles/react-lottie-player';
- 
+
 
 interface props {
     children?: ReactChild;
@@ -27,7 +27,7 @@ const StyledContainer = styled.div`
     };
 `;
 
-const StyledCardForm = styled.div`
+const StyledCardForm = styled.form`
     min-height: 30px;
     width: 130px;
 `;
@@ -50,23 +50,21 @@ const StyledText = styled.link`
 `;
 
 const MainContainer = ({ children, authRequired }: props) => {
-    const { userStore } = useStore(); 
+    const { userStore } = useStore();
     const router = useRouter();
 
     useLayoutEffect(() => {
-        if (authRequired && !userStore.user)
-        {
+        console.log(userStore.user);
+        if (authRequired && !getSession()?.login) {
             router.push("/login");
         }
     }, [router, authRequired, userStore.user])
 
-    const Menu = () => 
-    {
-        if (getSession()?.login == '' && getSession()?.password == '')
-        {       
-            return <RegistrationMenu/>;
+    const Menu = () => {
+        if (getSession()?.login == '' && getSession()?.password == '') {
+            return <RegistrationMenu />;
         }
-        else return <AccountMenu/>;
+        else return <AccountMenu />;
     }
 
     //console.log(userStore.isLoading);
@@ -74,28 +72,26 @@ const MainContainer = ({ children, authRequired }: props) => {
     return (
         <>
             <StyledContainer>
-                
+
                 <StyledCardForm>
                     <StyledText as="a" href="/">
-                        {userStore.user?.balance}
-                        {userStore.user?.login}
+                        Main
                     </StyledText>
                 </StyledCardForm>
-                
+
+                <StyledCardForm>
+                    <StyledText as="a" href="/lots">
+                        Lots
+                    </StyledText>
+                </StyledCardForm>
+
                 <StyledCardForm className="push-right">
-                    <Menu/>
+                    <Menu />
                 </StyledCardForm>
             </StyledContainer>
             <StyledFooter />
 
-            {!userStore.isLoading ? children : <Player
-            background="blue"
-            autoplay={true}
-            loop={true}
-            controls={true}
-            src="https://assets3.lottiefiles.com/private_files/lf30_rlssnwpv.json"
-            style={{ height: '300px', width: '300px' }}
-          ></Player>}
+            {children}
         </>
     )
 

@@ -1,5 +1,12 @@
 import MainContainer from "../src/components/MainContainer"
+import { Button, Card, TextField } from "@mui/material";
 import styled from "@emotion/styled";
+import { useStore } from "../src/stores/storeContext";
+import { useRouter } from "next/router";
+import { useForm } from "react-hook-form";
+import { setMoney } from "../src/api/moneyApi";
+import { getSession } from "../src/utils/authService";
+import { observer } from "mobx-react-lite";
 
 const StyledFooter = styled.footer`
   display: flex;
@@ -25,41 +32,117 @@ const StyledMain = styled.main`
   align-items: center;
 `;
 
-const StyledTitle = styled.span`
+const StyledTitle = styled.div`
   color: rgb(185, 206, 241);
   line-height: 1.15;
   font-size: 4rem;
 `;
 
+const LoginForm = styled.form`
+    display: flex;
+    flex-direction: column;
+    margin: 1rem;
+    padding: 1.5rem;
+    color: inherit;
+    border: 5px solid rgb(185, 206, 241);
+    border-radius: 10px;
+    transition: color 0.15s ease, border-color 0.15s ease;
+    height: max-content;
+    min-width: 200px;
+    min-height: 200px;
+    & * {
+        margin-bottom: 2.5px;
+    }
+`;
+
+const Input = styled(TextField)`
+  
+`;
+
 const StyledGrid = styled.div`
-  color: rgb(122, 233, 31);
+  text-align: center;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
   max-width: 800px;
+  > * {
+    margin: 30px;
+  }
 `;
 
-const Money = () => {
-
-    return (<MainContainer>
-        <StyledContainer>
-
-            <StyledMain>
-
-                <StyledTitle>
-                    Money
-                </StyledTitle>
-
-                <StyledGrid>
-                </StyledGrid>
-
-            </StyledMain>
-
-            <StyledFooter />
-
-        </StyledContainer>
-    </MainContainer>)
+type balance = {
+  balance?: number;
 }
 
-export default Money;
+
+const Money = () => {
+  const { userStore } = useStore();
+  const router = useRouter();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = (balance: balance) => {
+    console.log(balance.balance);
+    const session = getSession();
+    if (balance.balance && session) {
+      setMoney(balance.balance, session?.login);
+    }
+    router.reload();
+  };
+
+  return (
+    <MainContainer authRequired={true}>
+      <StyledContainer>
+
+        <StyledMain>
+
+          <StyledGrid>
+            <StyledTitle>
+              Money: {userStore.user?.balance}
+            </StyledTitle>
+            <Card sx={{ backgroundColor: 'transparent' }}>
+              <LoginForm onSubmit={handleSubmit(onSubmit)}>
+                <Input
+                  label="Input your new balance"
+                  variant="filled"
+                  className={errors.balance ? "red-error" : ""}
+
+                  error={Boolean(errors.balance)}
+                  {...register("balance", {
+                    required: true,
+                    pattern: /[0-9]+/,
+                    validate: (value: number) => {
+                      if (!(RegExp(/[0-9]+/)))
+                        return "Invalid input";
+                    },
+                  })}
+                  helperText={
+                    errors &&
+                    errors.balance &&
+                    (errors.balance.type == "required"
+                      ? "Это поле обязательное"
+                      : errors.balance.message)
+                  }
+                />
+
+                <Button type="submit"> Input balance </Button>
+              </LoginForm>
+            </Card>
+          </StyledGrid>
+
+        </StyledMain>
+
+        <StyledFooter />
+
+      </StyledContainer>
+    </MainContainer>
+  )
+}
+
+export default observer(Money);

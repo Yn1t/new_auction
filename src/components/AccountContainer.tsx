@@ -83,15 +83,9 @@ const AccountMenu = () => {
           </MenuItem>
         </Link>
 
-        <Link href="/lots" passHref>
+        <Link href="/mylots" passHref>
           <MenuItem>
             <Avatar sx={{ width: 32, height: 32 }}>L</Avatar> My lots
-          </MenuItem>
-        </Link>
-
-        <Link href="/money" passHref>
-          <MenuItem>
-            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar> Balance
           </MenuItem>
         </Link>
 

@@ -4,7 +4,7 @@ import { getSession } from "../utils/authService";
 
 
 
-export const getLots = () => {
+export const getUserLots = () => {
     const session = getSession();
 
     return axios.get(`${HOST}/api/profile/lots`, {
@@ -13,4 +13,28 @@ export const getLots = () => {
           "x-access-password": session?.password || "",
         },
       });
+}
+
+export const getLots = () => {
+  const session = getSession();
+
+  return axios.get(`${HOST}/api/lots`, {
+      headers: {
+        "x-access-login": session?.login || "",
+        "x-access-password": session?.password || "",
+      },
+    });
+}
+
+export const getImage = (path: string) => {
+  return axios.get('${HOST}{path}');
+}
+
+export const getPopular = () => {
+  return axios.get(`${HOST}/api/lots/popular`, {});
+}
+
+export const getOtherUserLots = (id: string) => {
+
+  return axios.get(`${HOST}/api/user/getLots/${id}`, {});
 }

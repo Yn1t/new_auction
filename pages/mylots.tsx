@@ -1,11 +1,9 @@
-import type { NextPage } from 'next'
-import styled from '@emotion/styled';
-import MainContainer from '../src/components/MainContainer'
-import { observer } from 'mobx-react-lite';
-import { useLayoutEffect, useState } from 'react';
-import { getPopular } from '../src/api/lotsApi';
-import { Lot } from '../src/types/types';
-import CardLot from '../src/components/LotContainer';
+import MainContainer from "../src/components/MainContainer"
+import CardLot from "../src/components/LotContainer";
+import styled from "@emotion/styled";
+import { useLayoutEffect, useState } from "react";
+import { getUserLots } from "../src/api/lotsApi";
+import { Lot } from "../src/types/types";
 
 const StyledFooter = styled.footer`
   display: flex;
@@ -40,11 +38,11 @@ const StyledGrid = styled.div`
   max-width: 800px;
 `;
 
-const Home: NextPage = () => {
+const Mylots = () => {
   const [lots, setLots] = useState<ReadonlyArray<Lot>>([]);
 
   useLayoutEffect(() => {
-    getPopular().then((data) => {
+    getUserLots().then((data) => {
       setLots(data.data);
       console.log(data.data);
     });
@@ -71,4 +69,4 @@ const Home: NextPage = () => {
   )
 }
 
-export default observer(Home);
+export default Mylots;

@@ -22,6 +22,7 @@ export const UserStore = types
       }, 1000);
     },
     syncAccount: () => {
+      console.log(self.isLoading);
       self.isLoading = true;
       getAccountInfo().then(({ data: user }) => {
         self.user = User.create(user);

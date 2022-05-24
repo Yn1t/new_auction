@@ -18,3 +18,15 @@ export const makeBet = (lotId: string, amount: number) => {
             },
         });
 }
+
+export const getBets = () => {
+    const session = getSession();
+
+    return axios.get(`${HOST}/api/profile/bets`,
+        {
+            headers: {
+                "x-access-login": session?.login || "",
+                "x-access-password": session?.password || "",
+            },
+        });
+}

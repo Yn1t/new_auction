@@ -1,5 +1,9 @@
 import MainContainer from "../src/components/MainContainer"
 import styled from "@emotion/styled";
+import { useLayoutEffect, useState } from "react";
+import { getBets } from "../src/api/betsApi";
+import CardBet from "../src/components/BetContainer"
+import { Bet } from "../src/types/types";
 
 const StyledFooter = styled.footer`
   display: flex;
@@ -25,12 +29,6 @@ const StyledMain = styled.main`
   align-items: center;
 `;
 
-const StyledTitle = styled.span`
-  color: rgb(185, 206, 241);
-  line-height: 1.15;
-  font-size: 4rem;
-`;
-
 const StyledGrid = styled.div`
   color: rgb(122, 233, 31);
   display: flex;
@@ -41,25 +39,31 @@ const StyledGrid = styled.div`
 `;
 
 const Bets = () => {
+  const [bets, setbets] = useState<ReadonlyArray<Bet>>([]);
 
-    return (<MainContainer>
-        <StyledContainer>
+  useLayoutEffect(() => {
+    getBets().then((data) => {
+      setbets(data.data);
+      console.log(data.data);
+    });
+  }, []);
 
-            <StyledMain>
+  return (<MainContainer>
+    <StyledContainer>
 
-                <StyledTitle>
-                    Bets
-                </StyledTitle>
+      <StyledMain>
+        <StyledGrid>
+        {bets.map((bet) => (
+            <CardBet key={bet.id} data={bet} />
+          ))}  
+        </StyledGrid>
 
-                <StyledGrid>
-                </StyledGrid>
+      </StyledMain>
 
-            </StyledMain>
+      <StyledFooter />
 
-            <StyledFooter />
-
-        </StyledContainer>
-    </MainContainer>)
+    </StyledContainer>
+  </MainContainer>)
 }
 
 export default Bets;
