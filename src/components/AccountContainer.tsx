@@ -94,6 +94,12 @@ const AccountMenu = () => {
             <Avatar sx={{ width: 32, height: 32 }}>B</Avatar> Bets
           </MenuItem>
         </Link>
+
+        <Link href="/money" passHref>
+          <MenuItem>
+            <Avatar sx={{ width: 32, height: 32 }}>B</Avatar> Balance
+          </MenuItem>
+        </Link>
         <Divider />
 
         <MenuItem onClick={() => {
