@@ -27,7 +27,8 @@ export const getLots = () => {
 }
 
 export const getImage = (path: string) => {
-  return axios.get('${HOST}{path}');
+  console.log(path);
+  return axios.get(`${HOST}${path}`);
 }
 
 export const getPopular = () => {
@@ -37,4 +38,8 @@ export const getPopular = () => {
 export const getOtherUserLots = (id: string) => {
 
   return axios.get(`${HOST}/api/user/getLots/${id}`, {});
+}
+
+export const getLot = (id : string) => {
+  return axios.get(`${HOST}/api/lots/${id}`, {});
 }

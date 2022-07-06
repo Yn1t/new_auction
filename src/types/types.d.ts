@@ -15,8 +15,8 @@ export type Lot = {
     createDate: string;
     amount: number;
   }
-  image: string;
   sold: boolean;
+  linkToImage: string;
 };
 
 export type Bet = {

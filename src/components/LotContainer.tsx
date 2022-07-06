@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { Button, Card, CardMedia, TextField } from "@mui/material";
-import React, { useLayoutEffect } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useStore } from "../stores/storeContext";
 import { Lot } from "../types/types";
 import { useForm } from "react-hook-form";
@@ -51,7 +51,15 @@ type BetsData = {
 
 const CardLot = ({ data }: Props) => {
   const { userStore } = useStore();
+  const [image, setImage] = useState("");
   const router = useRouter();
+
+  useEffect(() => {
+    getImage(data.linkToImage).then(({ data }) => {
+      setImage(data);
+    })
+  })
+
 
   const {
     register,
@@ -73,7 +81,7 @@ const CardLot = ({ data }: Props) => {
   else
     Bet = data.bestBet.amount
 
-  const MakeBetSet = ({auth} : authProps) => {
+  const MakeBetSet = ({ auth }: authProps) => {
     if (auth) {
       return <LoginForm onSubmit={handleSubmit(onSubmit)}>
         <Input
@@ -114,7 +122,7 @@ const CardLot = ({ data }: Props) => {
       <CardMedia
         component="img"
         alt="Lot"
-        image={`data:image/png;base64,${getImage(data.image)}`}
+        image={`data:image/png;base64,${image}`}
       >
       </CardMedia>
 
@@ -141,7 +149,7 @@ const CardLot = ({ data }: Props) => {
         Sold? : {data.sold.toString()}
       </StyledPaper>
 
-      <MakeBetSet auth={userStore.user?.login != undefined}/>
+      <MakeBetSet auth={userStore.user?.login != undefined} />
       <></>
     </Card>
   );

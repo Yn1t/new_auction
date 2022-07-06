@@ -16,6 +16,10 @@ const StyledPaper = styled.div`
   border: 1px;
 `;
 
+const StyledLink = styled.link`
+  
+`
+
 const CardBet = ({ data }: Props) => {
 
   return (
@@ -35,7 +39,7 @@ const CardBet = ({ data }: Props) => {
       </StyledPaper>
 
       <StyledPaper>
-        Lot id: {data.ownLotId}
+        <StyledLink as="a" href={"/lot?id=" + data.ownLotId}> Lot id: {data.ownLotId} </StyledLink>
       </StyledPaper>
     </Card>
   );
