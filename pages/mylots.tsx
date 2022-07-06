@@ -46,7 +46,7 @@ const Mylots = () => {
       setLots(data.data);
       console.log(data.data);
     });
-  }, []);
+  });
 
   return (
     <MainContainer>
